@@ -1,0 +1,137 @@
+\documentclass[10.5pt,a4paper]{jsarticle}
+\usepackage{graphicx}
+\usepackage{amsmath}
+
+\usepackage[final]{listings}
+\usepackage{color}
+
+\normalsize
+
+\lstset{
+  language=fortran,
+  basicstyle=\ttfamily\scriptsize,
+  commentstyle={\ttfamily \color[cmyk]{0,1,1,0}},
+  keywordstyle={\bfseries \color[cmyk]{1,1,0,0}},
+  stringstyle={\ttfamily \color[cmyk]{1,0,1,0.5}},
+  stepnumber=1,
+  numberstyle=\ttfamily,
+  breaklines=true,
+  breakindent=20pt,
+  frame=tblr,
+  framesep=4pt,
+  tabsize=2
+}
+
+\newcommand{\figref}[1]{図\ref{#1}}
+\newcommand{\tabref}[1]{表\ref{#1}}
+\newcommand{\secref}[1]{\ref{#1}節}
+
+\title{データ構造とアルゴリズム実験レポート\\課題２：\textless Javaによるプログラミングの復讐\textgreater}
+\author{\textless 201811320\textgreater \textless 1クラス\textgreater \textless 江頭輝\textgreater}
+\date{締切日：\textless 2019年4月22日\textgreater\\提出日：\textless 2019年4月27日\textgreater}
+
+\begin{document}
+\maketitle
+
+\section{必須課題2-1}
+
+この課題では，セルに整数値を格納する連結リストを実現するクラスListをJava言語で実装する。
+
+\subsection{List.javaの作成}
+\subsubsection{実装の方針}
+まず，\texttt{List}クラスを定義する。
+セルの直後（ポインタは）`p.next`のような形で表現し、セルの値は`p.data`のように表記する。
+
+\subsubsection{実装コードおよびコードの説明}
+
+\begin{figure}[t]
+  \begin{center}
+   \lstinputlisting[language=java,numbers=left]{List.java}
+   \caption{List.javaのソースコード}
+  \end{center}
+\end{figure}
+
+\subsubsection{実装の方針}\label{sec:ls_impl_policy}
+
+insert_cellとinsert_cell_topでは即席変数であるnew_cellを作成しそのデータに引数を渡すことで新たなセルを作成する。
+topの場合は\texttt{new_cell}のポインタにこれまでの\texttt{head}をよび、
+前者では引数として渡した\texttt{List p}のポインタが\texttt{new_cell}のポインタになるようにする。
+delete_cellでは\texttt{p}のポインタに\texttt{p}のポインタのポインタを代入することでセルの削除を行うようにしている。
+delete_cell_topでは\texttt{p}ではなく\texttt{head}になった。
+displayでは\texttt{head}のポインタが\texttt{null}になるまで値をループで出力する。
+
+\subsubsection{実行結果}\label{sec:ls_code_exec}
+
+まず，List.javaを以下のコマンドでコンパイルする．
+\begin{verbatim}
+-------------------------------------
+$ javac List.java
+-------------------------------------
+\end{verbatim}
+
+コンパイル後に以下のコマンドで実行を行った。
+
+\begin{verbatim}
+-------------------------------------
+$ java List
+123
+13
+3
+-------------------------------------
+\end{verbatim}
+
+\texttt{main}メゾッドでまず、1を先頭に追加、先頭の直後に3, 2を順番に追加していった。
+なので、43行目の\texttt{display}関数で出力っされる値は\texttt{123}である。
+次に\texttt{head}セルの次のセルを削除したので46行目の\texttt{display}関数では13が出力される。
+最後に\texttt{delete_cell_top}関数を呼び出し、先頭のセルを削除したため、49行目での\texttt{display}関数では3のみが出力された。
+
+\subsubsection{考察}
+
+このコードだと、headの先頭にセルを追加する場合新しいリストを作る必要があります。
+また、headのみ仕様が異なるので、よぶんに\texttt{insert_cell_top}メゾッドと\texttt{delete_cell_top}メゾッドを呼ぶ必要がありました。
+それを踏まえると、ダミーのデータ部を持つheadを作成するほうが実装が単純になると考えられます。
+
+\section{必須課題2-2}
+
+\subsection{時間計算量}
+
+\subsection{QueueArray.javaの作成}
+
+\begin{figure}[t]
+  \begin{center}
+   \lstinputlisting[language=java,numbers=left]{QueueArray.java}
+   \caption{QueueArray.javaのソースコード}
+   \label{code:QueueArray}
+  \end{center}
+ \end{figure}
+
+\subsubsection{実装の方針}\label{sec:bs_impl_policy}
+実装の方針は，List.javaと同様である．余り（m）がゼロになった時を終了条件とする再帰メゾッドを実装する。
+前回と同様にnがmより小さくなるような入れ替えをおこなったあと、
+nをmで割った余りをrとおく。
+recursiveメゾッドを返すことでｍがゼロになるまでループし続ける。
+
+\subsubsection{実装コードおよびコードの説明}
+
+\figref{code:QueueArray}QueueArray.javaのソースコードを示す．\secref{sec:bs_impl_policy}で述べた，\texttt{recursive}メソッドと\texttt{main}メソッドは，それぞれ19$\sim$31行目，2$\sim$16行の部分に相当する．
+今回はデバッグのスピードを速めるために、コマンドライン引数がない場合はnに13673をmに31640を代入させるようにした。本番環境ではコメントアウトすることが望ましい。
+\texttt{recursive}メゾッドは再帰メゾッドなのではじめに終了条件のmがゼロの時を書き、そこでnを最大公約数として返すようにしている。
+24$\sim$28行目で入れ替えを行った後、rにnとmのあまりを代入して、mとrで再帰させている。
+
+\subsubsection{実行結果}
+
+\secref{sec:ls_code_exec}で述べたコンパイル方法と同様に，QueueArray.javaを\texttt{javac}コマンドでコンパイルし，QueueArray.classを生成する．その後，以下のコマンドを入力することによって，QueueArray.javaのプログラムを実行する．
+\begin{verbatim}
+-------------------------------------
+$ java -ea QueueArray 57 76
+The GCD of 76 and 57 is 19.
+-------------------------------------
+\end{verbatim}
+
+\subsubsection{考察}
+
+30行目の再帰させるときnのところにm, mのところにrを引数とすることで、前回のList.javaで行った
+値の最代入を省略している。
+それにより、計算量は同じ\texttt{O(log(n)}だが多少の改善が行われたと思う。
+
+\end{document}
