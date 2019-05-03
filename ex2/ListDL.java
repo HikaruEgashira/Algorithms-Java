@@ -4,7 +4,9 @@ public class ListDL {
     int val;
 
     ListDL() {
+        // -1はダミーデータなので読み取らない
         this.val = -1;
+        // 循環するためのコード
         this.next = this;
         this.prev = this;
     }
@@ -15,13 +17,13 @@ public class ListDL {
         this.prev = this;
     }
 
-    // cell, prev, next間の関係を定義
+    // prev <=> cell <=> next
     private static void __Insert(ListDL cell, ListDL prev, ListDL next) {
-        // next => cell
+        // prev => cell
         if (prev != null) {
             prev.next = cell;
         }
-        // prev => cell
+        // next => cell
         if (next != null) {
             next.prev = cell;
         }
@@ -31,7 +33,7 @@ public class ListDL {
         cell.prev = prev;
     }
 
-    // prevとnextの結びつけ
+    // prev と next の結びつけ
     private static void __Delete(ListDL prev, ListDL next) {
         prev.next = next;
         next.prev = prev;
@@ -43,28 +45,32 @@ public class ListDL {
         this.next = null;
     }
 
+    // this => cell => this.next
     void insertNext(ListDL cell) {
         __Insert(cell, this, this.next);
         this.next = cell;
     }
 
+    // this.prev => cell => this
     void insertPrev(ListDL cell) {
         __Insert(cell, this.prev, this);
         this.prev = cell;
     }
 
+    // this.prev => this.next (no this)
     void delete() {
         __Delete(this.prev, this.next);
         initLinks();
     }
 
+    // リストのコピーを走査して、データ値が引数と同じものを返す
     ListDL search(int i) {
         ListDL tmp = this;
         while (tmp != null) {
+            tmp = tmp.next;
             if (tmp.val == i) {
                 return tmp;
             }
-            tmp = tmp.next;
         }
         return null;
     }

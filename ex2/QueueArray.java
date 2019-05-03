@@ -1,5 +1,3 @@
-import java.lang.reflect.Array;
-
 public class QueueArray {
     int length, front, rear;
     int[] queue;
@@ -12,7 +10,7 @@ public class QueueArray {
         rear = 0;
     }
 
-    // データのエンキュー
+    // queue の後ろに引数を代入する
     void enqueue(int val) {
         if (rear > length-1) {
             System.err.println("Queue Overflow !!");
@@ -22,7 +20,7 @@ public class QueueArray {
         rear += 1;
     }
 
-    // データのデキュー
+    // queue の先頭を返し、番号を一つずらす
     int dequeue() {
         if (front == rear) {
             System.err.println("Queue Underflow !!");
@@ -33,7 +31,7 @@ public class QueueArray {
         return x;
     }
 
-    // キューの要素の表示
+    // queue の先頭から末尾までを出力
     void display() {
         for (int i = front; i < rear; i++) {
             System.out.print(queue[i]);
@@ -41,15 +39,15 @@ public class QueueArray {
         System.out.println();
     }
 
-    // main メソッド
+    // QueueArray クラスの動作確認
     public static void main(String[] args) {
           QueueArray queue = new QueueArray(10);
 
           queue.enqueue(1);
           queue.enqueue(2);
-          queue.display();
+          queue.display();                        // 12
 
-          System.out.println(queue.dequeue());
-          System.out.println(queue.dequeue());
+          System.out.println(queue.dequeue());    // 1
+          System.out.println(queue.dequeue());    // 2
     }
 }

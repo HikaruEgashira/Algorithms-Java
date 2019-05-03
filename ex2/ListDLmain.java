@@ -1,21 +1,21 @@
 // ListDLmain.java
-// ãƒªã‚¹ãƒˆã®å®Ÿè£…ã‚’ãƒ†ã‚¹ãƒˆã™ã‚‹ãŸã‚ã®ã‚¯ãƒ©ã‚¹
+// ƒŠƒXƒg‚ÌÀ‘•‚ğƒeƒXƒg‚·‚é‚½‚ß‚ÌƒNƒ‰ƒX
 public class ListDLmain {
     public static void main(String[] args) {
-          ListDL head = new ListDL();            // ãƒ€ãƒŸãƒ¼ã‚»ãƒ«ã®ç”Ÿæˆ
+          ListDL head = new ListDL();          // ƒ_ƒ~[ƒZƒ‹‚Ì¶¬
           ListDL elem;
 
-          head.insertNext(new ListDL(2));      // ã‚»ãƒ«ã®å…ˆé ­ã¸ã®è¿½åŠ 
+          head.insertNext(new ListDL(2));      // ƒZƒ‹‚Ìæ“ª‚Ö‚Ì’Ç‰Á
           head.insertNext(new ListDL(1));
-          head.insertPrev(new ListDL(5));      // ã‚»ãƒ«ã®æœ«å°¾ã¸ã®è¿½åŠ 
-          head.display();                      // ãƒªã‚¹ãƒˆã®è¡¨ç¤º
+          head.insertPrev(new ListDL(5));      // ƒZƒ‹‚Ì––”ö‚Ö‚Ì’Ç‰Á
+          head.display();                      // ƒŠƒXƒg‚Ì•\¦
 
-          elem = head.search(2);               // ã‚»ãƒ«ã‚’æ¢ã™
-          elem.insertNext(new ListDL(3));      // æ¢ã—ãŸã‚»ãƒ«ã®ç›´å¾Œã«ã‚»ãƒ«ã‚’è¿½åŠ 
+          elem = head.search(2);               // ƒZƒ‹‚ğ’T‚·
+          elem.insertNext(new ListDL(3));      // ’T‚µ‚½ƒZƒ‹‚Ì’¼Œã‚ÉƒZƒ‹‚ğ’Ç‰Á
           head.display();
 
-          elem = head.search(5);               // ã‚»ãƒ«ã‚’æ¢ã™
-          elem.delete();                       // æ¢ã—ãŸã‚»ãƒ«ã‚’å‰Šé™¤
+          elem = head.search(5);               // ƒZƒ‹‚ğ’T‚·
+          elem.delete();                       // ’T‚µ‚½ƒZƒ‹‚ğíœ
           head.display();
     }
 }

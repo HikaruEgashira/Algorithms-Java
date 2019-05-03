@@ -51,14 +51,14 @@
   \end{center}
 \end{figure}
 
-\subsubsection{実装の方針}\label{sec:ls_impl_policy}
+\subsubsection{実装の方針}
+insert\_cellとinsert\_cell\_topでは即席変数であるnew\_cellを作成しそのデータに引数を渡すことで新たなセルを作成する。
+topの場合はのポインタにこれまでのtexttt{head}をよび、
+前者では引数として渡したのポインタがのポインタになるようにする。
+delete\_cellではのポインタに\texttt{p}のポインタのポインタを代入することでセルの削除を行うようにしている。
+delete\_cell\_topではではなくtexttt{head}になった。
+displayではのポインタが\texttt{null}になるまで値をループで出力する。
 
-insert_cellとinsert_cell_topでは即席変数であるnew_cellを作成しそのデータに引数を渡すことで新たなセルを作成する。
-topの場合は\texttt{new_cell}のポインタにこれまでの\texttt{head}をよび、
-前者では引数として渡した\texttt{List p}のポインタが\texttt{new_cell}のポインタになるようにする。
-delete_cellでは\texttt{p}のポインタに\texttt{p}のポインタのポインタを代入することでセルの削除を行うようにしている。
-delete_cell_topでは\texttt{p}ではなく\texttt{head}になった。
-displayでは\texttt{head}のポインタが\texttt{null}になるまで値をループで出力する。
 
 \subsubsection{実行結果}\label{sec:ls_code_exec}
 
@@ -68,9 +68,7 @@ displayでは\texttt{head}のポインタが\texttt{null}になるまで値を�
 $ javac List.java
 -------------------------------------
 \end{verbatim}
-
 コンパイル後に以下のコマンドで実行を行った。
-
 \begin{verbatim}
 -------------------------------------
 $ java List
@@ -83,12 +81,12 @@ $ java List
 \texttt{main}メゾッドでまず、1を先頭に追加、先頭の直後に3, 2を順番に追加していった。
 なので、43行目の\texttt{display}関数で出力っされる値は\texttt{123}である。
 次に\texttt{head}セルの次のセルを削除したので46行目の\texttt{display}関数では13が出力される。
-最後に\texttt{delete_cell_top}関数を呼び出し、先頭のセルを削除したため、49行目での\texttt{display}関数では3のみが出力された。
+最後に\texttt{delete\_cell\_top}関数を呼び出し、先頭のセルを削除したため、49行目での\texttt{display}関数では3のみが出力された。
 
 \subsubsection{考察}
 
 このコードだと、headの先頭にセルを追加する場合新しいリストを作る必要があります。
-また、headのみ仕様が異なるので、よぶんに\texttt{insert_cell_top}メゾッドと\texttt{delete_cell_top}メゾッドを呼ぶ必要がありました。
+また、headのみ仕様が異なるので、余分に\texttt{insert\_cell\_top}メゾッドと\texttt{delete\_cell\_top}メゾッドを呼ぶ必要がありました。
 それを踏まえると、ダミーのデータ部を持つheadを作成するほうが実装が単純になると考えられます。
 
 \section{必須課題2-2}
@@ -106,10 +104,7 @@ $ java List
  \end{figure}
 
 \subsubsection{実装の方針}\label{sec:bs_impl_policy}
-実装の方針は，List.javaと同様である．余り（m）がゼロになった時を終了条件とする再帰メゾッドを実装する。
-前回と同様にnがmより小さくなるような入れ替えをおこなったあと、
-nをmで割った余りをrとおく。
-recursiveメゾッドを返すことでｍがゼロになるまでループし続ける。
+実装の方針は，
 
 \subsubsection{実装コードおよびコードの説明}
 
@@ -127,11 +122,8 @@ $ java -ea QueueArray 57 76
 The GCD of 76 and 57 is 19.
 -------------------------------------
 \end{verbatim}
-
 \subsubsection{考察}
-
 30行目の再帰させるときnのところにm, mのところにrを引数とすることで、前回のList.javaで行った
 値の最代入を省略している。
 それにより、計算量は同じ\texttt{O(log(n)}だが多少の改善が行われたと思う。
-
 \end{document}

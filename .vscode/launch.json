@@ -6,31 +6,10 @@
     "configurations": [
         {
             "type": "java",
-            "name": "CodeLens (Launch) - List",
+            "name": "CodeLens (Launch) - ListDL",
             "request": "launch",
-            "mainClass": "ex2.List",
-            "projectName": "java_bd28b93"
-        },
-        {
-            "type": "java",
-            "name": "CodeLens (Launch) - sample",
-            "request": "launch",
-            "mainClass": "sample",
-            "projectName": "java_bd28b93"
-        },
-        {
-            "type": "java",
-            "name": "CodeLens (Launch) - a",
-            "request": "launch",
-            "mainClass": "a",
-            "projectName": "java_bd28b93"
-        },
-        {
-            "type": "java",
-            "name": "CodeLens (Launch) - GCDEuclid",
-            "request": "launch",
-            "mainClass": "ex1.GCDEuclid",
-            "projectName": "java_bd28b93"
+            "mainClass": "ListDL",
+            "projectName": "Data-Structures-and-Algorithms-Laboratory_d3e35150"
         },
         {
             "type": "java",
