@@ -1,20 +1,18 @@
-// ListDL.java
+import java.io.*;
+
+// ListDLInt.java
 public class ListDL {
-    private ListDL prev, next;
-    int val;
+    private ListDL next, prev;
+    Object val;
 
     ListDL() {
-        // -1はダミーデータなので読み取らない
-        this.val = -1;
-        // 循環するためのコード
-        this.next = this;
-        this.prev = this;
+        // 循環する(
+        initLinks();
     }
 
-    ListDL(int val) {
+    ListDL(Object val) {
+        initLinks();
         this.val = val;
-        this.next = this;
-        this.prev = this;
     }
 
     // prev <=> cell <=> next
@@ -41,8 +39,8 @@ public class ListDL {
 
     // 結びつきをなくす
     private void initLinks() {
-        this.prev = null;
-        this.next = null;
+        this.next = this;
+        this.prev = this;
     }
 
     // this => cell => this.next
@@ -59,47 +57,92 @@ public class ListDL {
 
     // this.prev => this.next (no this)
     void delete() {
-        __Delete(this.prev, this.next);
-        initLinks();
+        if (this != null) {
+            __Delete(this.prev, this.next);
+            this.prev = null;
+            this.next = null;
+        }
     }
 
     // リストのコピーを走査して、データ値が引数と同じものを返す
-    ListDL search(int i) {
-        ListDL tmp = this;
-        while (tmp != null) {
-            tmp = tmp.next;
-            if (tmp.val == i) {
-                return tmp;
+    ListDL search(Object i) {
+        for (ListDL j = this.next; j != this; j = j.next) {
+            if (i.equals(j.val)) {
+                return j;
             }
         }
         return null;
     }
 
     void display() {
-        ListDL tmp = this.next;
-        while (tmp.val != -1) {
-            System.out.print(tmp.val);
-            tmp = tmp.next;
+        for (ListDL j = this.next; j != this; j = j.next) {
+            if (j.val != null) {
+                System.out.print(j.val + " -> ");
+            }
         }
         System.out.println();
     }
 
-    // リストの実装をテストするためのクラス
-    public static void main(String[] args) {
-          ListDL head = new ListDL();          // ダミーセルの生成
-          ListDL elem;
+    // 配列からリストの要素を読み込むメソッド readFromArray()
+    ListDL readFromArray(int[] Array) {
+        for (Object val : Array) {
+            this.insertPrev(new ListDL(val));
+        }
+        return this;
+    }
 
-          head.insertNext(new ListDL(2));      // セルの先頭への追加
-          head.insertNext(new ListDL(1));
-          head.insertPrev(new ListDL(5));      // セルの末尾への追加
-          head.display();                      // リストの表示
+    int length() {
+        int Count = 0;
+        for (ListDL i = this.next; i != this; i = i.next) {
+            Count++;
+        }
+        return Count;
+    }
 
-          elem = head.search(2);               // セルを探す elem.val == 5
-          elem.insertNext(new ListDL(3));      // 探したセルの直後にセルを追加
-          head.display();
+    // リストの要素を書き出した配列を返すメソッド writeToArray()
+    int[] writeToArray() {
+        int[] res = new int[this.length()];
+        int Count = 0;
+        for (ListDL i = this.next; i != this; i = i.next) {
+            res[Count] = (int) i.val;
+            Count++;
+        }
+        return res;
+    }
 
-          elem = head.search(5);               // セルを探す elem.val == 5
-          elem.delete();                       // 探したセルを削除
-          head.display();
+    // ファイルからリストの要素を読み込むメソッド readFromFile()
+    void readFromFile(String readfile) {
+        try {
+            File file = new File(readfile);
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            try {
+                String str;
+                while ((str = br.readLine()) != null) {
+                    insertPrev(new ListDL(str));
+                }
+            } finally {
+                br.close();
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("File Not Found");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    // ファイルにリストの要素を書き出すメソッド writeToFile() を追加しなさい。
+    void writeToFile(String fileName) {
+        try {
+            File file = new File(fileName);
+            PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
+            try {
+                for (ListDL i = this.next; i != this; i = i.next) {
+                    pw.println(i.val);
+                }
+            } finally {
+                pw.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

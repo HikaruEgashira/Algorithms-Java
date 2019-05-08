@@ -4,7 +4,7 @@
 
 ### 実行方法
 
-.vscodeファイルを対象のフォルダに移動してそのフォルダをワークスペースとして開く
+`f5`
 
 課題ページ
 http://www.coins.tsukuba.ac.jp/~amagasa/lecture/dsa/
