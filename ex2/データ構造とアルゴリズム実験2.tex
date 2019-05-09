@@ -39,8 +39,10 @@
 
 \subsection{List.javaの作成}
 \subsubsection{実装の方針}
+
 まず，\texttt{List}クラスを定義する。
 セルの直後（ポインタは）`p.next`のような形で表現し、セルの値は`p.data`のように表記する。
+
 
 \subsubsection{実装コードおよびコードの説明}
 
@@ -91,8 +93,6 @@ $ java List
 
 \section{必須課題2-2}
 
-\subsection{時間計算量}
-
 \subsection{QueueArray.javaの作成}
 
 \begin{figure}[t]
@@ -104,26 +104,177 @@ $ java List
  \end{figure}
 
 \subsubsection{実装の方針}\label{sec:bs_impl_policy}
-実装の方針は，
+\texttt{QueueArray}クラスにはエンキューを行うための\texttt{enqueue}メゾッドとデキューを行うための\texttt{dequeue}。
+キュー全体を表示する\texttt{display}メゾッドを作成した。そしてその動作を確認するための\texttt{main}メゾッドを作成する。
+
+1. QueueArrayクラスのコンストラクタ
+
+キューの作成に必要なものとしてコンストラクタで
+整数の配列を表す\texttt{queue}、
+格納できるメモリ量を表す長さを表す\texttt{length}、
+キューの先頭を\texttt{front}
+末尾を\texttt{rear}と定義した。
+
+2. enqueueメゾッド
+
+まずオーバーフローの処理を行う。もともとの配列Queueを超えるような値の挿入が起こってしまう可能性があるからだ。\\
+オーバーフローしないことがわかったら要素の末尾に引数で指定した値を代入してrearに適切な処理を行う。
+
+3. dequeueメゾッド
+
+まずアンダーフローの処理を行う。それはキューの要素が存在しない場合にデキューを行わないようにするためである。\\
+アンダーフローの処理後に要素の先頭の処理をしてその値を返すようにする。
+
+4. displayメゾッド
+
+要素の位置はコンストラクタで指定した\texttt{front}と\texttt{rear}をつかって表現することができるので、
+その間の値を返すように実装を行う。
 
 \subsubsection{実装コードおよびコードの説明}
 
-\figref{code:QueueArray}QueueArray.javaのソースコードを示す．\secref{sec:bs_impl_policy}で述べた，\texttt{recursive}メソッドと\texttt{main}メソッドは，それぞれ19$\sim$31行目，2$\sim$16行の部分に相当する．
-今回はデバッグのスピードを速めるために、コマンドライン引数がない場合はnに13673をmに31640を代入させるようにした。本番環境ではコメントアウトすることが望ましい。
-\texttt{recursive}メゾッドは再帰メゾッドなのではじめに終了条件のmがゼロの時を書き、そこでnを最大公約数として返すようにしている。
-24$\sim$28行目で入れ替えを行った後、rにnとmのあまりを代入して、mとrで再帰させている。
+\figref{code:QueueArray}QueueArray.javaのソースコードを示す．
+\secref{sec:bs_impl_policy}で述べた，
+\texttt{enqueue}メソッドと
+\texttt{dequeue}メソッドは，それぞれ
+14$\sim$21行目，
+24$\sim$32行の部分に相当する．
+
+\texttt{enqueue}
+は末尾が配列の長さより大きくなる場合はオーバーフローとなり終了する。15$\sim$18行目でその実装をしている。
+オーバーフローを起こす場合、\texttt{System.exit(1)}を書いて終了することができる。
+オーバーフローを起こさない場合、\texttt{queue[rear]}が要素の末尾にあたるので
+そこに引数として与えたint型の変数\texttt{val}を代入する。
+キューのサイズを変えるためにrearの値を一つ上げる。そうすることで要素の末尾は右に一つずれたような挙動になる.
+
+\texttt{dequeue}
+は要素の中身がない場合はアンダーフローとなり終了する。
+25$\sim$28行目でその実装をしている。frontとrearが等しいときに\texttt{dequeue}を行うと、アンダーフローになるので、その条件のときに\texttt{Queue Underflow!!}と出力して
+先程と同様に\texttt{System.exit(1)}によりプログラムを終了させる。
+デキューされるのは\texttt{queue[front]}であるのでその値を返す値である\texttt{x}に代入する。
+引数の値を代入した後にfrontを一つ動かし要素を拡大する。
 
 \subsubsection{実行結果}
 
-\secref{sec:ls_code_exec}で述べたコンパイル方法と同様に，QueueArray.javaを\texttt{javac}コマンドでコンパイルし，QueueArray.classを生成する．その後，以下のコマンドを入力することによって，QueueArray.javaのプログラムを実行する．
+\secref{sec:ls_code_exec}で述べたコンパイル方法と同様に，
+QueueArray.javaを\texttt{javac}コマンドでコンパイルし，
+QueueArray.classを生成する．その後，以下のコマンドを入力することによって，
+QueueArray.javaのプログラムを実行する．
+
 \begin{verbatim}
 -------------------------------------
-$ java -ea QueueArray 57 76
-The GCD of 76 and 57 is 19.
+$ java QueueArray
+12
+1
+2
+-------------------------------------
+\end{verbatim}
+
+配列の長さが10のQUEUEを作成し、そこに順番に1, 2をエンキューする。
+displayすると\texttt{12}が出力される。
+
+デキューをすると1次に2が出力される。
+この状態でデキューを行うとunderflow!が出力されて終了することも確認できた。
+
+\subsubsection{考察}
+\texttt{enqueue}メゾッドの計算量は\texttt{O(1)}であり、
+\texttt{dequeue}メゾッドの計算量も\texttt{O(1)}である。
+これはあらかじめ先頭と末尾の位置を変数で格納していることにより実現できた。
+\end{document}
+
+\section{発展課題2-3}
+
+\subsection{双方向循環リストの作成}
+
+\begin{figure}[t]
+  \begin{center}
+   \lstinputlisting[language=java,numbers=left]{No3/ListDL.java}
+   \caption{ListDL.javaのソースコード}
+   \label{code:ListDL}
+  \end{center}
+ \end{figure}
+
+\subsubsection{実装の方針}\label{sec:bs_impl_policy}
+\texttt{ListDL}クラスにはエンキューを行うための\texttt{enqueue}メゾッドとデキューを行うための\texttt{dequeue}。
+キュー全体を表示する\texttt{display}メゾッドを作成した。そしてその動作を確認するための\texttt{main}メゾッドを作成する。
+キューの作成に必要なものとしてコンストラクタで整数の配列を表す\texttt{queue}、格納できるメモリ量を表す長さを表す\texttt{length}、キューの先頭を\texttt{front}末尾を\texttt{rear}と定義した。
+
+\subsubsection{実装コードおよびコードの説明}
+
+\figref{code:ListDL}ListDL.javaのソースコードを示す．
+\secref{sec:bs_impl_policy}で述べた，
+\texttt{enqueue}メソッドと
+\texttt{dequeue}メソッドは，それぞれ
+14$\sim$21行目，
+24$\sim$32行の部分に相当する．
+\texttt{enqueue}は末尾が配列の長さより大きくなる場合はオーバーフローとなり終了する。rearの値を一つ上げるとキューの先頭は右に一つずれる。
+\texttt{dequeue}はキューの中身がない場合はアンダーフローとなり終了する。引数の値を代入する際にfrontを一つ動かしキューを拡大する。
+
+\subsubsection{実行結果}
+
+\secref{sec:ls_code_exec}で述べたコンパイル方法と同様に，
+ListDL.javaを\texttt{javac}コマンドでコンパイルし，
+ListDL.classを生成する．その後，以下のコマンドを入力することによって，
+ListDL.javaのプログラムを実行する．
+
+\begin{verbatim}
+-------------------------------------
+$ java ListDL
+12
+1
+2
 -------------------------------------
 \end{verbatim}
 \subsubsection{考察}
-30行目の再帰させるときnのところにm, mのところにrを引数とすることで、前回のList.javaで行った
-値の最代入を省略している。
-それにより、計算量は同じ\texttt{O(log(n)}だが多少の改善が行われたと思う。
+\texttt{enqueue}メゾッドの計算量は\texttt{O(1)}であり、
+\texttt{dequeue}メゾッドの計算量も\texttt{O(1)}である。
+これはあらかじめ先頭と末尾の位置を変数で格納していることにより実現できた。
+\end{document}
+
+\section{必須課題2-4}
+
+\subsection{双方向循環リストの改良}
+
+\begin{figure}[t]
+  \begin{center}
+   \lstinputlisting[language=java,numbers=left]{ListDL.java}
+   \caption{ListDL.javaのソースコード}
+   \label{code:ListDL}
+  \end{center}
+ \end{figure}
+
+\subsubsection{実装の方針}\label{sec:bs_impl_policy}
+\texttt{ListDL}クラスにはエンキューを行うための\texttt{enqueue}メゾッドとデキューを行うための\texttt{dequeue}。
+キュー全体を表示する\texttt{display}メゾッドを作成した。そしてその動作を確認するための\texttt{main}メゾッドを作成する。
+キューの作成に必要なものとしてコンストラクタで整数の配列を表す\texttt{queue}、格納できるメモリ量を表す長さを表す\texttt{length}、キューの先頭を\texttt{front}末尾を\texttt{rear}と定義した。
+
+\subsubsection{実装コードおよびコードの説明}
+
+\figref{code:ListDL}ListDL.javaのソースコードを示す．
+\secref{sec:bs_impl_policy}で述べた，
+\texttt{enqueue}メソッドと
+\texttt{dequeue}メソッドは，それぞれ
+14$\sim$21行目，
+24$\sim$32行の部分に相当する．
+\texttt{enqueue}は末尾が配列の長さより大きくなる場合はオーバーフローとなり終了する。rearの値を一つ上げるとキューの先頭は右に一つずれる。
+\texttt{dequeue}はキューの中身がない場合はアンダーフローとなり終了する。引数の値を代入する際にfrontを一つ動かしキューを拡大する。
+
+\subsubsection{実行結果}
+
+\secref{sec:ls_code_exec}で述べたコンパイル方法と同様に，
+ListDL.javaを\texttt{javac}コマンドでコンパイルし，
+ListDL.classを生成する．その後，以下のコマンドを入力することによって，
+ListDL.javaのプログラムを実行する．
+
+\begin{verbatim}
+-------------------------------------
+$ java ListDLmain
+12
+1
+2
+-------------------------------------
+\end{verbatim}
+\subsubsection{考察}
+\texttt{enqueue}メゾッドの計算量は\texttt{O(1)}であり、
+\texttt{dequeue}メゾッドの計算量も\texttt{O(1)}である。
+これはあらかじめ先頭と末尾の位置を変数で格納していることにより実現できた。
 \end{document}

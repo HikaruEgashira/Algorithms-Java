@@ -1,5 +1,5 @@
 // ListDL.java
-public class ListDL23 {
+public class ListDL {
     private ListDL prev, next;
     int val;
 
@@ -7,12 +7,10 @@ public class ListDL23 {
         // -1はダミーデータなので読み取らない
         this(-1);
     }
-    
+
     ListDL(int val) {
         this.val = val;
-        // 循環するためのコード
-        this.next = this;
-        this.prev = this;
+        initLinks();
     }
 
     // prev <=> cell <=> next
@@ -44,8 +42,7 @@ public class ListDL23 {
 
     // 結びつきをなくす
     private void initLinks() {
-        this.prev = null;
-        this.next = null;
+        this.prev = this.next = this;
     }
 
     // this => cell => this.next
@@ -63,7 +60,7 @@ public class ListDL23 {
     // this.prev => this.next (no this)
     void delete() {
         __Delete(this.prev, this.next);
-        initLinks();
+        this.prev = this.next = null;
     }
 
     // リストのコピーを走査して、データ値が引数と同じものを返す
@@ -89,20 +86,20 @@ public class ListDL23 {
 
     // リストの実装をテストするためのクラス
     public static void main(String[] args) {
-          ListDL head = new ListDL();          // ダミーセルの生成
-          ListDL elem;
+        ListDL head = new ListDL();         // ダミーセルの生成
+        ListDL elem;
 
-          head.insertNext(new ListDL(2));      // セルの先頭への追加
-          head.insertNext(new ListDL(1));
-          head.insertPrev(new ListDL(5));      // セルの末尾への追加
-          head.display();                      // リストの表示
+        head.insertNext(new ListDL(2));     // セルの先頭への追加
+        head.insertNext(new ListDL(1));
+        head.insertPrev(new ListDL(5));     // セルの末尾への追加
+        head.display();                     // リストの表示
 
-          elem = head.search(2);               // セルを探す elem.val == 5
-          elem.insertNext(new ListDL(3));      // 探したセルの直後にセルを追加
-          head.display();
+        elem = head.search(2);              // セルを探す elem.val == 5
+        elem.insertNext(new ListDL(3));     // 探したセルの直後にセルを追加
+        head.display();
 
-          elem = head.search(5);               // セルを探す elem.val == 5
-          elem.delete();                       // 探したセルを削除
-          head.display();
+        elem = head.search(5);              // セルを探す elem.val == 5
+        elem.delete();                      // 探したセルを削除
+        head.display();
     }
 }

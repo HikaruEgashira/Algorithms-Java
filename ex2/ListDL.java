@@ -6,7 +6,7 @@ public class ListDL {
     Object val;
 
     ListDL() {
-        // 循環する(
+        // 循環する
         initLinks();
     }
 
@@ -37,7 +37,7 @@ public class ListDL {
         next.prev = prev;
     }
 
-    // 結びつきをなくす
+    // 初期化
     private void initLinks() {
         this.next = this;
         this.prev = this;
@@ -91,6 +91,7 @@ public class ListDL {
         return this;
     }
 
+    // リストの要素数を返す
     int length() {
         int Count = 0;
         for (ListDL i = this.next; i != this; i = i.next) {
@@ -101,6 +102,7 @@ public class ListDL {
 
     // リストの要素を書き出した配列を返すメソッド writeToArray()
     int[] writeToArray() {
+        // リストと同じ長さの配列を作成してリストの値を代入する。
         int[] res = new int[this.length()];
         int Count = 0;
         for (ListDL i = this.next; i != this; i = i.next) {
@@ -113,6 +115,7 @@ public class ListDL {
     // ファイルからリストの要素を読み込むメソッド readFromFile()
     void readFromFile(String readfile) {
         try {
+            // 引数のパスにあるファイルを読み込んで一行ずつリストに追加
             File file = new File(readfile);
             BufferedReader br = new BufferedReader(new FileReader(file));
             try {
@@ -121,9 +124,11 @@ public class ListDL {
                     insertPrev(new ListDL(str));
                 }
             } finally {
+                // ファイルを閉じる
                 br.close();
             }
         } catch (FileNotFoundException e) {
+            // ファイルが存在しない
             System.out.println("File Not Found");
         } catch (IOException e) {
             e.printStackTrace();
@@ -132,6 +137,7 @@ public class ListDL {
     // ファイルにリストの要素を書き出すメソッド writeToFile() を追加しなさい。
     void writeToFile(String fileName) {
         try {
+            //リストをループするごとに 引数のパスにあるファイルにデータを書き込む
             File file = new File(fileName);
             PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
             try {
@@ -139,6 +145,7 @@ public class ListDL {
                     pw.println(i.val);
                 }
             } finally {
+                // ファイルを閉じる
                 pw.close();
             }
         } catch (IOException e) {

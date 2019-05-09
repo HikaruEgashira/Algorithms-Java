@@ -17,7 +17,7 @@ public class QueueArray {
             System.exit(1);
         }
         queue[rear] = val;
-        rear += 1;
+        rear++;
     }
 
     // queue ‚Ìæ“ª‚ğ•Ô‚µA”Ô†‚ğˆê‚Â‚¸‚ç‚·
@@ -27,7 +27,7 @@ public class QueueArray {
             System.exit(1);
         }
         int x = queue[front];
-        front += 1;
+        front++;
         return x;
     }
 
