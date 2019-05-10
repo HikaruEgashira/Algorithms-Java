@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - ListDL",
+            "request": "launch",
+            "mainClass": "No3.ListDL",
+            "projectName": "Data-Structures-and-Algorithms-Laboratory_d3e35150"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - QueueArray",
             "request": "launch",
             "mainClass": "QueueArray",

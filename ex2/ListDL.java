@@ -17,18 +17,10 @@ public class ListDL {
 
     // prev <=> cell <=> next
     private static void __Insert(ListDL cell, ListDL prev, ListDL next) {
-        // prev => cell
-        if (prev != null) {
-            prev.next = cell;
-        }
-        // next => cell
-        if (next != null) {
-            next.prev = cell;
-        }
-        // cell => next
-        cell.next = next;
-        // cell => prev
-        cell.prev = prev;
+        prev.next = cell;       // prev => cell
+        next.prev = cell;       // next => cell
+        cell.next = next;       // cell => next
+        cell.prev = prev;       // cell => prev
     }
 
     // prev と next の結びつけ
@@ -46,22 +38,17 @@ public class ListDL {
     // this => cell => this.next
     void insertNext(ListDL cell) {
         __Insert(cell, this, this.next);
-        this.next = cell;
     }
 
     // this.prev => cell => this
     void insertPrev(ListDL cell) {
         __Insert(cell, this.prev, this);
-        this.prev = cell;
     }
 
     // this.prev => this.next (no this)
     void delete() {
-        if (this != null) {
-            __Delete(this.prev, this.next);
-            this.prev = null;
-            this.next = null;
-        }
+        __Delete(this.prev, this.next);
+        initLinks();
     }
 
     // リストのコピーを走査して、データ値が引数と同じものを返す
@@ -84,7 +71,7 @@ public class ListDL {
     }
 
     // 配列からリストの要素を読み込むメソッド readFromArray()
-    ListDL readFromArray(int[] Array) {
+    ListDL readFromArray(Object[] Array) {
         for (Object val : Array) {
             this.insertPrev(new ListDL(val));
         }

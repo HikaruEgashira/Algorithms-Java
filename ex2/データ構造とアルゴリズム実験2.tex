@@ -41,10 +41,26 @@
 \subsubsection{実装の方針}
 
 まず，\texttt{List}クラスを定義する。
+
+1. コンストラクタ
+
 セルの直後（ポインタは）`p.next`のような形で表現し、セルの値は`p.data`のように表記する。
+そして、リストの最初を表すリストをheadとして定義した。
 
+2. \texttt{insert\_cell}メゾッド
 
-\subsubsection{実装コードおよびコードの説明}
+リストpの次にdを値として持つリストを挿入するので、まずデータがdのリストを作成する。
+その後、pの次にそのリストが来て、その次にp.nextが来るような実装を行う。
+
+3. \texttt{delete\_cell}メゾッド
+
+引数として指定したリストpのポインタを表すコピーを作成して、pのポインタはpのポインタのポインタになるようにリスト関係を実装する。
+
+4. \texttt{display}
+
+まずheadのコピーを作成する必要がある。
+
+5. 実装コードおよびコードの説明
 
 \begin{figure}[t]
   \begin{center}
@@ -55,16 +71,16 @@
 
 \subsubsection{実装の方針}
 insert\_cellとinsert\_cell\_topでは即席変数であるnew\_cellを作成しそのデータに引数を渡すことで新たなセルを作成する。
-topの場合はのポインタにこれまでのtexttt{head}をよび、
+topの場合はのポインタにこれまでの\texttt{head}をよび、
 前者では引数として渡したのポインタがのポインタになるようにする。
 delete\_cellではのポインタに\texttt{p}のポインタのポインタを代入することでセルの削除を行うようにしている。
 delete\_cell\_topではではなくtexttt{head}になった。
 displayではのポインタが\texttt{null}になるまで値をループで出力する。
 
-
 \subsubsection{実行結果}\label{sec:ls_code_exec}
 
 まず，List.javaを以下のコマンドでコンパイルする．
+
 \begin{verbatim}
 -------------------------------------
 $ javac List.java
@@ -101,7 +117,7 @@ $ java List
    \caption{QueueArray.javaのソースコード}
    \label{code:QueueArray}
   \end{center}
- \end{figure}
+\end{figure}
 
 \subsubsection{実装の方針}\label{sec:bs_impl_policy}
 \texttt{QueueArray}クラスにはエンキューを行うための\texttt{enqueue}メゾッドとデキューを行うための\texttt{dequeue}。
@@ -133,6 +149,7 @@ $ java List
 \subsubsection{実装コードおよびコードの説明}
 
 \figref{code:QueueArray}QueueArray.javaのソースコードを示す．
+
 \secref{sec:bs_impl_policy}で述べた，
 \texttt{enqueue}メソッドと
 \texttt{dequeue}メソッドは，それぞれ
@@ -140,10 +157,10 @@ $ java List
 24$\sim$32行の部分に相当する．
 
 \texttt{enqueue}
-は末尾が配列の長さより大きくなる場合はオーバーフローとなり終了する。15$\sim$18行目でその実装をしている。
-オーバーフローを起こす場合、\texttt{System.exit(1)}を書いて終了することができる。
+は末尾が配列の長さより大きくなる場合はオーバーフローとなり終了する。15$\sim$18行目でその実装をしている。\\
+オーバーフローを起こす場合、\texttt{System.exit(1)}を書いて終了することができる。\\
 オーバーフローを起こさない場合、\texttt{queue[rear]}が要素の末尾にあたるので
-そこに引数として与えたint型の変数\texttt{val}を代入する。
+そこに引数として与えたint型の変数\texttt{val}を代入する。\\
 キューのサイズを変えるためにrearの値を一つ上げる。そうすることで要素の末尾は右に一つずれたような挙動になる.
 
 \texttt{dequeue}
@@ -179,7 +196,6 @@ displayすると\texttt{12}が出力される。
 \texttt{enqueue}メゾッドの計算量は\texttt{O(1)}であり、
 \texttt{dequeue}メゾッドの計算量も\texttt{O(1)}である。
 これはあらかじめ先頭と末尾の位置を変数で格納していることにより実現できた。
-\end{document}
 
 \section{発展課題2-3}
 
@@ -191,23 +207,75 @@ displayすると\texttt{12}が出力される。
    \caption{ListDL.javaのソースコード}
    \label{code:ListDL}
   \end{center}
- \end{figure}
+\end{figure}
 
 \subsubsection{実装の方針}\label{sec:bs_impl_policy}
-\texttt{ListDL}クラスにはエンキューを行うための\texttt{enqueue}メゾッドとデキューを行うための\texttt{dequeue}。
-キュー全体を表示する\texttt{display}メゾッドを作成した。そしてその動作を確認するための\texttt{main}メゾッドを作成する。
-キューの作成に必要なものとしてコンストラクタで整数の配列を表す\texttt{queue}、格納できるメモリ量を表す長さを表す\texttt{length}、キューの先頭を\texttt{front}末尾を\texttt{rear}と定義した。
+
+\texttt{ListDL}クラスには
+次のポインタを表す\texttt{next}と
+前のポインタを表す\texttt{prev}
+値を表す\texttt{val}を定義する。
+それらに対して以下の処理を行い実装をする。
+
+1. コンストラクタ
+
+はじめは循環するように\texttt{next}と\texttt{prev}の関係を作る。そのために、thisの次も前も指すポインタ部はthisになるように書く。
+引数が与えられたときはその値を格納する。
+
+2. insertNext, insertPrevメゾッド
+
+引数となるリストをcellとおくと
+前者はthis -> cell -> this.next\\
+後者はthis.prev -> cell -> this\\
+という位置関係になっている。
+この２つの関係は３つのリストの位置関係というコードで共通するため、
+\texttt{\_\_insertNext}で共通化してコードを実装する。
+
+3. deleteメゾッド
+
+this.prev -> this.nextの結びつけをおこない、その後thisを初期化する。
+それぞれ\texttt{\_\_Delete}メゾッドと\texttt{initLinks}メゾッドを作成する。
+
+4. searchメゾッド
+
+コピーを作成し、ループさせる。データが引数と同じ場合にそのリストを返すように実装します。
+またリストのループはポインタを移動していき、リストを一周してthisになった場合に終了する。
+終了したらnullを返すように実装する。
+
+5. displayメゾッド
+
+4と同様のループ機構を書き、データ部をコマンドラインへ出力するようにする。
 
 \subsubsection{実装コードおよびコードの説明}
 
 \figref{code:ListDL}ListDL.javaのソースコードを示す．
 \secref{sec:bs_impl_policy}で述べた，
-\texttt{enqueue}メソッドと
-\texttt{dequeue}メソッドは，それぞれ
-14$\sim$21行目，
-24$\sim$32行の部分に相当する．
-\texttt{enqueue}は末尾が配列の長さより大きくなる場合はオーバーフローとなり終了する。rearの値を一つ上げるとキューの先頭は右に一つずれる。
-\texttt{dequeue}はキューの中身がない場合はアンダーフローとなり終了する。引数の値を代入する際にfrontを一つ動かしキューを拡大する。
+
+\texttt{コンストラクタ}は6$\sim$13行目の部分に相当する．
+headセルはデータ値を持たないようにするため、引数がない場合にはデータ値であるvalは定義しない。
+そして、引数がある場合のコンストラクタにはデータ値を定義する。またどちらにも循環するようにリンクの初期化メゾッドを使っている。
+
+\texttt{insertNext, insertPrev}メソッドは36$\sim$43行目の部分に相当する．
+セルの前後にそれぞれ双方向にリストを結びつけるための４つコードがそれぞれ書かれている。
+
+\texttt{delete}メソッドは46$\sim$49行目の部分に相当する．
+セルの前後をリンク付ける。その後削除されたセルから前後のセルが呼び出せられるのを防ぐため、リンクの初期化を行う。
+
+\texttt{search}メソッドは52$\sim$61行目の部分に相当する．
+コピーを一周ループさせ、データの評価を行う。このときにコピーをポインタ部のセルにさせようにして終了条件をそのコピーがthisになったときにする。
+そうすることでループの開始ではwhileの条件に含まれないようにしている。
+データ値と引数が等しいときにそのリストを返す。
+このループ中でこの条件を満たすものがない場合、nullを返す。
+
+\texttt{display}メソッドは63$\sim$70行目の部分に相当する．
+ループ機構は同じである。whileループの中でデータ値を出力している。
+一周ループした後の69行目で改行をした。
+
+このコードの確認のため、このクラス内に\texttt{main}メゾッドを実装した。
+headをダミーセルとして1->2->5と表示できるようにリストを挿入する。
+
+elemは\texttt{search}メゾッドを使うことで2->5->1というリストになる。
+3を挿入して1->2->3->5のリストに、最後に5を削除して1->2->3というリストになることを想定している。
 
 \subsubsection{実行結果}
 
@@ -225,10 +293,8 @@ $ java ListDL
 -------------------------------------
 \end{verbatim}
 \subsubsection{考察}
-\texttt{enqueue}メゾッドの計算量は\texttt{O(1)}であり、
-\texttt{dequeue}メゾッドの計算量も\texttt{O(1)}である。
-これはあらかじめ先頭と末尾の位置を変数で格納していることにより実現できた。
-\end{document}
+\texttt{search}メゾッドの計算量は単純な線形探索を採用しているので\texttt{O(n)}である。
+\texttt{insert, delete}メゾッドの計算量は\texttt{O(1)}である。
 
 \section{必須課題2-4}
 
@@ -243,20 +309,31 @@ $ java ListDL
  \end{figure}
 
 \subsubsection{実装の方針}\label{sec:bs_impl_policy}
-\texttt{ListDL}クラスにはエンキューを行うための\texttt{enqueue}メゾッドとデキューを行うための\texttt{dequeue}。
-キュー全体を表示する\texttt{display}メゾッドを作成した。そしてその動作を確認するための\texttt{main}メゾッドを作成する。
-キューの作成に必要なものとしてコンストラクタで整数の配列を表す\texttt{queue}、格納できるメモリ量を表す長さを表す\texttt{length}、キューの先頭を\texttt{front}末尾を\texttt{rear}と定義した。
+ListDLIntはデータをint型にする。
+ListDLのデータの型はObject型にした。これはどのような型に対しても代入可能にするためである。
+その後に配列や外部ファイルからのリスト作成用メゾッドを実装する。
+
+1. readFromArrayメゾッド
+
+引数として受けとった配列を順にinsertする。
+
+2. writeToArrayメゾッド
+
+ループするごとにそのインデックスに応じた配列に格納する。
+このときリスト数分の配列をさくせいするためにリストの長さを返すメゾッドlengthも作成する。
+
+3. readFromFil, writeToFile、メゾッド
+
+ファイルから一行ずつ読み込むコードを実装する。
 
 \subsubsection{実装コードおよびコードの説明}
 
 \figref{code:ListDL}ListDL.javaのソースコードを示す．
-\secref{sec:bs_impl_policy}で述べた，
-\texttt{enqueue}メソッドと
-\texttt{dequeue}メソッドは，それぞれ
-14$\sim$21行目，
-24$\sim$32行の部分に相当する．
-\texttt{enqueue}は末尾が配列の長さより大きくなる場合はオーバーフローとなり終了する。rearの値を一つ上げるとキューの先頭は右に一つずれる。
-\texttt{dequeue}はキューの中身がない場合はアンダーフローとなり終了する。引数の値を代入する際にfrontを一つ動かしキューを拡大する。
+追加コードは75$\sim$143行目である。
+リストをループするコードを少々改良した。
+for文で実装することでコード行数を減らしている。
+\texttt{readFromFile, writeToFile}メゾッドはBufferedWriterでファイルを開き、その後終了した後にメモリ管理のためにファイルを閉じる必要がある。
+そのときにtry\_finally文を使った。これにより、エラーなどにも対応できる。
 
 \subsubsection{実行結果}
 
@@ -274,7 +351,5 @@ $ java ListDLmain
 -------------------------------------
 \end{verbatim}
 \subsubsection{考察}
-\texttt{enqueue}メゾッドの計算量は\texttt{O(1)}であり、
-\texttt{dequeue}メゾッドの計算量も\texttt{O(1)}である。
-これはあらかじめ先頭と末尾の位置を変数で格納していることにより実現できた。
+
 \end{document}
