@@ -26,7 +26,7 @@
 \newcommand{\tabref}[1]{表\ref{#1}}
 \newcommand{\secref}[1]{\ref{#1}節}
 
-\title{データ構造とアルゴリズム実験レポート\\課題２：\textless Javaによるプログラミングの復讐\textgreater}
+\title{データ構造とアルゴリズム実験レポート\\課題２：\textless 連結リスト，スタック，キュー \textgreater}
 \author{\textless 201811320\textgreater \textless 1クラス\textgreater \textless 江頭輝\textgreater}
 \date{締切日：\textless 2019年4月22日\textgreater\\提出日：\textless 2019年4月27日\textgreater}
 
@@ -204,7 +204,15 @@ displayすると\texttt{12}が出力される。
 \begin{figure}[t]
   \begin{center}
    \lstinputlisting[language=java,numbers=left]{No3/ListDL.java}
-   \caption{ListDL.javaのソースコード}
+   \caption{ListDL.javaのソースコード1}
+   \label{code:ListDL}
+  \end{center}
+\end{figure}
+
+\begin{figure}[t]
+  \begin{center}
+   \lstinputlisting[language=java,numbers=left]{No3/ListDL.1.java}
+   \caption{ListDL.javaのソースコード2}
    \label{code:ListDL}
   \end{center}
 \end{figure}
@@ -303,7 +311,24 @@ $ java ListDL
 \begin{figure}[t]
   \begin{center}
    \lstinputlisting[language=java,numbers=left]{ListDL.java}
-   \caption{ListDL.javaのソースコード}
+   \caption{ListDL.javaのソースコード1}
+   \label{code:ListDL}
+  \end{center}
+ \end{figure}
+
+ \begin{figure}[t]
+  \begin{center}
+   \lstinputlisting[language=java,numbers=left]{ListDL.1.java}
+   \caption{ListDL.javaのソースコード2}
+   \label{code:ListDL}
+  \end{center}
+ \end{figure}
+
+ 
+\begin{figure}[t]
+  \begin{center}
+   \lstinputlisting[language=java,numbers=left]{ListDLInt.java}
+   \caption{ListDLInt.javaのソースコード}
    \label{code:ListDL}
   \end{center}
  \end{figure}
@@ -337,19 +362,69 @@ for文で実装することでコード行数を減らしている。
 
 \subsubsection{実行結果}
 
-\secref{sec:ls_code_exec}で述べたコンパイル方法と同様に，
-ListDL.javaを\texttt{javac}コマンドでコンパイルし，
-ListDL.classを生成する．その後，以下のコマンドを入力することによって，
-ListDL.javaのプログラムを実行する．
+動作を確認するコードListDLmain.javaを作成しました。
+コードはいかに記す。
+またwriteToArrayメゾッドの動作確認用のテキストファイル\texttt{array.txt}を作成した。
+これらはこれまで同様ListDLmain.javaをコンパイルした後にいかのコマンドを実行する。
 
 \begin{verbatim}
 -------------------------------------
 $ java ListDLmain
-12
+5 -> 1 -> 2 -> 
+5 -> 3 -> 1 -> 2 -> 
+3 -> 1 -> 2 -> 
+1 -> 2 -> 3 -> 4 -> 5 -> 
+12345
+1357 -> 25 -> 262 -> 7224 -> 43 -> 63
+-> 7747 -> 3622 -> 43 -> 4 -> 
+-------------------------------------
+
+out.txt------------------------------
+3
 1
 2
 -------------------------------------
 \end{verbatim}
+
+\begin{figure}[t]
+  \begin{center}
+   \lstinputlisting[language=java,numbers=left]{ListDLmain.java}
+   \caption{ListDLmain.javaのソースコード}
+   \label{code:ListDL}
+  \end{center}
+ \end{figure}
+
+1. readFromArrayメゾッド
+
+{1, 2, 3, 4, 5}の配列を作成して、それを引数として、readFromArrayメゾッドを呼び出したので、readedListには1 -> 2 -> 3 -> 4 -> 5が入っている。
+
+2. writeToArrayメゾッド
+
+foreach文でreadedListを配列として取り出したところ、12345が出力された。
+
+3. readFromFileメゾッド
+
+先程作成したarray.txtからのリストを表示したところ、
+
+1357 -> 25 -> 262 -> 7224 -> 43 -> 63
+-> 7747 -> 3622 -> 43 -> 4 -> 
+
+と表示される。
+
+4. writeToFileメゾッド
+
+out.txtという引数で作成したところ想定道理の出力が行われた。
+
 \subsubsection{考察}
+
+この問題で２つの課題に直面しました。
+
+１つ目は型の改良です。一つ前の課題での変数valをどの型にしようか迷いました。
+調べたところ、ジェネリクスを用いた型の指定が多く出てきました。今回はこれまでで学んだ構文のみで継承を行おうと思ったので、Object型を使うことにしました。
+これは型の決まっていないものなのでできるだけ利用を避けるべきです。なので外部のファイルではできるだけ使わないようなコードを心がけました。
+
+2つ目はwriteToArrayメゾッドです。ここではうまく表現できずにObject型で返すようにしました。
+ここは引数の型を判別して、それに対応した型を返すべきだと思いました。またリストに連番を振っていないためfor文に追加でCountという変数を用意して、リストに番号をつけました。
+for文で複数の引数を持ったり、for文自体のインデックスを利用する方法が必要だと感じました。
 
 \end{document}
