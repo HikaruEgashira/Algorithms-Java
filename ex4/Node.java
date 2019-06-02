@@ -1,7 +1,6 @@
-// Node.java
 // 2•ª–Ø‚Ìƒm[ƒh
 /**
- * Node
+ * Node.java
  */
 public class Node {
     String val;

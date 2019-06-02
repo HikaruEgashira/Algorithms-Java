@@ -6,6 +6,41 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - BinaryTree",
+            "request": "launch",
+            "mainClass": "BinaryTree",
+            "projectName": "Data-Structures-and-Algorithms-Laboratory_8ea85ae8"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - DictOpenAddrReq",
+            "request": "launch",
+            "mainClass": "DictOpenAddrReq",
+            "projectName": "Data-Structures-and-Algorithms-Laboratory_8ea85ae8"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - DictOpenAddrAdv",
+            "request": "launch",
+            "mainClass": "DictOpenAddrAdv",
+            "projectName": "Data-Structures-and-Algorithms-Laboratory_8ea85ae8"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - DictOpenAddr",
+            "request": "launch",
+            "mainClass": "req.DictOpenAddr",
+            "projectName": "Data-Structures-and-Algorithms-Laboratory_8ea85ae8"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - DictOpenAddr",
+            "request": "launch",
+            "mainClass": "DictOpenAddr",
+            "projectName": "Data-Structures-and-Algorithms-Laboratory_8ea85ae8"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - ListDL",
             "request": "launch",
             "mainClass": "No3.ListDL",
