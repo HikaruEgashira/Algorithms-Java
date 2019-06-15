@@ -21,7 +21,8 @@
             "type": "java",
             "name": "Debug (Launch)-Sort",
             "request": "launch",
-            "mainClass": "Sort"
+            "mainClass": "Sort",
+            "args": "-q"
         }
     ]
 }

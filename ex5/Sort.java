@@ -157,7 +157,6 @@ public class Sort {
         // h: 桁, i: 並び替える数, j: 基数0~9
         for (int h = 0; h <= k - 1; h++) {
 
-
             /** 桁ごとの処理 */
             for (int i = 0; i < n; i++) {
                 /** 探索元の配列の処理 */
@@ -166,7 +165,6 @@ public class Sort {
             }
             digit *= 10;
 
-            
             int index = 0; // index: 並び替える数の順番
             for (int j = 0; j < 10; j++) {
                 /** 基数の処理 */
@@ -180,19 +178,31 @@ public class Sort {
     }
 
     public static void main(String[] args) {
-        if (args.length > 0) {
+        if (args.length > 1) {
             Scanner scan = new Scanner(System.in);
-            int n = Integer.parseInt(args[0]);
+            int n = Integer.parseInt(args[1]);
             int[] a = new int[n];
             System.out.println(n + "個の整数を入力してください．");
             for (int i = 0; i < n; i++) {
                 a[i] = scan.nextInt(); // 整数を入力する
             }
             scan.close();
-            radix_sort(a, n, 2);
+            switch (args[0]) {
+            case "-q":
+                qsort(a, n);
+                break;
+            case "-h":
+                heap_sort(a, n);
+                break;
+            case "-r":
+                radix_sort(a, n, 2);
+                break;
+            default:
+                break;
+            }
             System.out.println("整列結果");
             display(a, n);
-        } else {
+        } else if (args.length == 1) {
             for (int j = 1; j <= 10; j++) { // 大きさn (n=1000, 2000, ..., 10000) の配列に対してテスト
                 int n = 1000 * j;
                 int[] a = new int[n];
@@ -200,24 +210,37 @@ public class Sort {
                 for (int i = 0; i < n; i++) {
                     a[i] = rnd.nextInt(n * 10); // 0〜配列の大きさ*10 -1 のランダムな整数を要素とする
                 }
-                System.out.println("=TIME=");
                 long t1, t2;
+
                 t1 = System.nanoTime();
-                radix_sort(a, n, 4);
+                switch (args[0]) {
+
+                case "-q":
+                    System.out.println("quick_sort");
+                    qsort(a, n);
+                    break;
+                case "-h":
+                    System.out.println("heap_sort");
+                    heap_sort(a, n);
+                    break;
+                case "-r":
+                    System.out.println("radix_sort");
+                    radix_sort(a, n, 4);
+                    break;
+                default:
+                    break;
+
+                }
                 t2 = System.nanoTime();
-                System.out.println("radix_sort: " + (t2 - t1) / 1000);
-                t1 = System.nanoTime();
-                qsort(a, n);
-                t2 = System.nanoTime();
-                System.out.println("quick_sort: " + (t2 - t1) / 1000);
-                t1 = System.nanoTime();
-                heap_sort(a, n);
-                t2 = System.nanoTime();
-                System.out.println("heap_sort : " + (t2 - t1) / 1000);
+
+                System.out.println("time: " + (t2-t1));
+
                 System.out.print(n);
                 System.out.println(": count: " + compare_count); // 比較回数を表示
                 reset(); // 比較回数をリセット
             }
+        } else {
+            System.err.println("java Sort <-q -h -r> <値>のフォーマットで入力してください");
         }
     }
 }
