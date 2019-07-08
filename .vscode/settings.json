@@ -1,14 +1,11 @@
 {
     "workbench.iconTheme": "material-icon-theme",
-    "workbench.colorTheme": "Material Theme Ocean High Contrast",
+    "workbench.colorTheme": "Default Dark+",
     "workbench.sideBar.location": "right",
     "explorer.confirmDelete": false,
     "editor.suggestSelection": "first",
     "java.configuration.checkProjectSettingsExclusions": false,
     "java.debug.settings.forceBuildBeforeLaunch": false,
-    "[java]": {
-        "files.encoding": "shiftjis"
-    },
     "latex-workshop.latex.tools": [
         {
             "command": "ptex2pdf",

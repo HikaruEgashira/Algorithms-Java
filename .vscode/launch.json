@@ -6,66 +6,27 @@
     "configurations": [
         {
             "type": "java",
-            "name": "CodeLens (Launch) - BinaryTree",
+            "name": "CodeLens (Launch) - RandomDigraph",
             "request": "launch",
-            "mainClass": "BinaryTree",
-            "projectName": "Data-Structures-and-Algorithms-Laboratory_8ea85ae8"
+            "mainClass": "RandomDigraph",
+            "projectName": "Data-Structures-and-Algorithms-Laboratory_40b35511",
+            "args": "10 0.5 30"
         },
         {
             "type": "java",
-            "name": "CodeLens (Launch) - DictOpenAddrReq",
+            "name": "CodeLens (Launch) - ShortestPathFloyd",
             "request": "launch",
-            "mainClass": "DictOpenAddrReq",
-            "projectName": "Data-Structures-and-Algorithms-Laboratory_8ea85ae8"
+            "mainClass": "ShortestPathFloyd",
+            "projectName": "Data-Structures-and-Algorithms-Laboratory_40b35511",
+            "args": "1"
         },
         {
             "type": "java",
-            "name": "CodeLens (Launch) - DictOpenAddrAdv",
+            "name": "CodeLens (Launch) - ShortestPathDijkstra",
             "request": "launch",
-            "mainClass": "DictOpenAddrAdv",
-            "projectName": "Data-Structures-and-Algorithms-Laboratory_8ea85ae8"
-        },
-        {
-            "type": "java",
-            "name": "CodeLens (Launch) - DictOpenAddr",
-            "request": "launch",
-            "mainClass": "req.DictOpenAddr",
-            "projectName": "Data-Structures-and-Algorithms-Laboratory_8ea85ae8"
-        },
-        {
-            "type": "java",
-            "name": "CodeLens (Launch) - DictOpenAddr",
-            "request": "launch",
-            "mainClass": "DictOpenAddr",
-            "projectName": "Data-Structures-and-Algorithms-Laboratory_8ea85ae8"
-        },
-        {
-            "type": "java",
-            "name": "CodeLens (Launch) - ListDL",
-            "request": "launch",
-            "mainClass": "No3.ListDL",
-            "projectName": "Data-Structures-and-Algorithms-Laboratory_d3e35150"
-        },
-        {
-            "type": "java",
-            "name": "CodeLens (Launch) - QueueArray",
-            "request": "launch",
-            "mainClass": "QueueArray",
-            "projectName": "Data-Structures-and-Algorithms-Laboratory_d3e35150"
-        },
-        {
-            "type": "java",
-            "name": "CodeLens (Launch) - ListDL",
-            "request": "launch",
-            "mainClass": "ListDL",
-            "projectName": "Data-Structures-and-Algorithms-Laboratory_d3e35150"
-        },
-        {
-            "type": "java",
-            "name": "CodeLens (Launch) - ListDLmain",
-            "request": "launch",
-            "mainClass": "ListDLmain",
-            "projectName": "Data-Structures-and-Algorithms-Laboratory_d3e35150"
+            "mainClass": "ShortestPathDijkstra",
+            "projectName": "Data-Structures-and-Algorithms-Laboratory_40b35511",
+            "args": "0"
         },
         {
             "type": "java",
