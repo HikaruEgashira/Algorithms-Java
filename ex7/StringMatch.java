@@ -5,7 +5,6 @@ import java.io.BufferedReader;
 class StringMatch {
 	static boolean isVerbose = false; // 比較回数表示スイッチ
 	static int Ncmp = 0; // 比較回数のカウンタ
-
 	static char[] text; // テキスト
 	static char[] pat; // 検索パターン
 
@@ -41,27 +40,34 @@ class StringMatch {
 		if (isVerbose)
 			System.out.println("cmp(" + a + ", " + b + ")");
 		Ncmp++;
-		if (a == b)
-			return true;
-		else
-			return false;
+		return (a == b);
 	}
 
+	/**
+	 * next配列．
+	 * 
+	 * @param pat pattern文字配列
+	 * @return patのnext配列
+	 */
 	public static int[] compnext(char[] pat) {
-		int count;
-		int next[] = new int[pat.length];
-		for (int p = 0; p < pat.length; p++) {
-			count = 0;
+		int len = pat.length;
+		int next[] = new int[len];
 
-			for (var i = 0; i < pat.length; i++) {
-				if (pat[i] == pat[p])
-					count++;
-				else
-					break;
-			}
+		// 初期化
+		for (int i = 0; i < len; i++)
+			next[i] = 0;
+		if (len <= 1)
+			return next;
 
-			next[p] = count;
+		for (int i = 1; i < len; i++) {
+			int ofs = 0;
+			// 一つずつすすむ
+			while (cmp(pat[i + ofs], pat[ofs]) && i + ofs < len - 1)
+				ofs++;
+			// nextの決定
+			next[i + ofs] = Math.max(next[i + ofs], ofs + 1);
 		}
+
 		return next;
 	}
 
@@ -80,19 +86,40 @@ class StringMatch {
 		int m = pat.length;
 
 		while (j < n) {
-			if (pat[i] != text[j]) {
-				j -= i - 1;
+			if (!cmp(pat[i], text[j])) {
 				i = 0;
+				j -= i - 1;
 			} else {
-				if (i == m - 1) {
-					return j - m + 1;
-				} else {
+				if (i != m - 1) {
 					i++;
 					j++;
-				}
+				} else
+					return j - m + 1; // 照合成功
 			}
 		}
-		return -1;
+		return -1; // 照合失敗
+	}
+
+	public static int kmp(char[] text, char[] pat) {
+		int i = 0;
+		int j = 0;
+		int n = text.length;
+		int m = pat.length;
+
+		int[] next = compnext(pat);
+		for (int k = 0; k < next.length; k++) {
+			System.out.print(next[k] + " ");
+		}
+		while (j < n) {
+			while (i >= 0 && !cmp(pat[i], text[j]))
+				i = next[i] - 1; // 失敗した場合のシフト量
+			if (i != m - 1) {
+				i++;
+				j++;
+			} else
+				return (j - m + 1); // 照合成功
+		}
+		return -1; // 照合失敗
 	}
 
 	public static void main(String[] args) {
@@ -112,12 +139,34 @@ class StringMatch {
 		pat = readFile(args[i]).toCharArray();
 
 		if (isVerbose) {
-			System.out.println("text size: " + text.length);
+			System.out.println("text    size: " + text.length);
+			System.out.println(text);
 			System.out.println("pattern size: " + pat.length);
+			System.out.println(pat);
+			// int[] next = compnext(pat);
+			// for (int j = 0; j < next.length; j++)
+			// System.out.println(next[j]);
 		}
 
-		System.out.println("Pattern found at " + naive(text, pat) + ".");
+		System.out.println("naive: Pattern found at " + naive(text, pat) + ".");
+		if (isVerbose) {
+			System.out.println("# of comparisons: " + Ncmp + ".");
+			Ncmp = 0;
+		}
+		// naive: Pattern found at -1.
+		// # of comparisons: 15.
+
+		int offset = kmp(text, pat);
+		System.out.println("kmp  : Pattern found at " + offset + ".");
 		if (isVerbose)
 			System.out.println("# of comparisons: " + Ncmp + ".");
+		// kmp : Pattern found at 10.
+		// # of comparisons: 24.
+
+		System.out.println(text);
+		for (int j = 0; j < offset; j++)
+			System.out.print(" ");
+		System.out.println(pat);
+
 	}
 }

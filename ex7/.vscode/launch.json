@@ -1,0 +1,12 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - StringMatch",
+            "request": "launch",
+            "mainClass": "StringMatch",
+            "projectName": "ex7_5e074be6",
+            "args": ["-v", "text", "pat"]
+        }
+    ]
+}
