@@ -19,7 +19,7 @@ class RandomDigraph {
 		else {
 		    if (Math.random() < edgerate)
 			this.matrix[i][j] = rnd.nextInt(maxweight) + 1;
-		    else 
+		    else
 			this.matrix[i][j] = M;
 		}
     }

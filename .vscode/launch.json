@@ -6,34 +6,26 @@
     "configurations": [
         {
             "type": "java",
-            "name": "CodeLens (Launch) - StringMatch",
-            "request": "launch",
-            "mainClass": "StringMatch",
-            "projectName": "Data-Structures-and-Algorithms-Laboratory_40b35511"
-        },
-        {
-            "type": "java",
             "name": "CodeLens (Launch) - RandomDigraph",
             "request": "launch",
             "mainClass": "RandomDigraph",
-            "projectName": "Data-Structures-and-Algorithms-Laboratory_40b35511",
-            "args": "10 0.5 30"
+            "projectName": "Data-Structures-and-Algorithms-Laboratory_d3e35150"
         },
         {
             "type": "java",
-            "name": "CodeLens (Launch) - ShortestPathFloyd",
+            "name": "CodeLens (Launch) - DPKnapsack",
             "request": "launch",
-            "mainClass": "ShortestPathFloyd",
-            "projectName": "Data-Structures-and-Algorithms-Laboratory_40b35511",
-            "args": "1"
+            "mainClass": "DPKnapsack",
+            "projectName": "Data-Structures-and-Algorithms-Laboratory_d3e35150",
+            "args": "9 8"
         },
         {
             "type": "java",
-            "name": "CodeLens (Launch) - ShortestPathDijkstra",
+            "name": "CodeLens (Launch) - Knapsack",
             "request": "launch",
-            "mainClass": "ShortestPathDijkstra",
-            "projectName": "Data-Structures-and-Algorithms-Laboratory_40b35511",
-            "args": "0"
+            "mainClass": "Knapsack",
+            "projectName": "Data-Structures-and-Algorithms-Laboratory_d3e35150",
+            "args": "4 3"
         },
         {
             "type": "java",

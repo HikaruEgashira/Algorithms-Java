@@ -4,26 +4,26 @@ import java.util.Random;
 
 public class Knapsack {
     /**
-     * æ•™ç§‘æ›¸ï¼šè¡¨ 6.1ã®ä¾‹ v[1]ã€œv[4]ï¼šä¾¡æ ¼ w[1]ã€œw[4]ï¼šé‡ã•
+     * ‹³‰È‘F•\ 6.1‚Ì—á v[1]?v[4]F‰¿Ši w[1]?w[4]Fd‚³
      */
     static int[] v = { 0, 250, 380, 420, 520 };
     static int[] w = { 0, 1, 2, 4, 3 };
 
     /**
-     * ãƒŠãƒƒãƒ—ã‚µãƒƒã‚¯å•é¡Œã®æœ€é©è§£ã‚’æ¢ç´¢ï¼ˆå‹•çš„è¨ˆç”»æ³•ã‚’ç”¨ã„ãªã„ï¼‰ 
+     * ƒiƒbƒvƒTƒbƒN–â‘è‚ÌÅ“K‰ğ‚ğ’Tõi“®“IŒv‰æ–@‚ğ—p‚¢‚È‚¢j
      *
-     * @param v ä¾¡æ ¼ã®é…åˆ—
-     * @param w é‡ã•ã®é…åˆ—
-     * @param k å¯¾è±¡ã¨ã™ã‚‹è·ç‰©ã®æ•°
-     * @param i ãƒŠãƒƒãƒ—ã‚µãƒƒã‚¯ã®å®¹é‡
+     * @param v ‰¿Ši‚Ì”z—ñ
+     * @param w d‚³‚Ì”z—ñ
+     * @param k ‘ÎÛ‚Æ‚·‚é‰×•¨‚Ì”
+     * @param i ƒiƒbƒvƒTƒbƒN‚Ì—e—Ê
      */
     public static int knapsack(int[] v, int[] w, int k, int i) {
-        if (k == 0)
+        if (k == 0) // ‚·‚×‚Ä‚Ì‰×•¨‚Ì”‚É‘Î‚µ‚Ä’Tõ‚ğs‚Á‚½
             return 0;
         else {
-            if (i - w[k] < 0)
+            if (i < w[k]) // ƒLƒƒƒbƒVƒ…‚Æ•ÏX‚ª‚È‚¢ê‡
                 return knapsack(v, w, k - 1, i);
-            else {
+            else { // XV
                 int a = knapsack(v, w, k - 1, i);
                 int b = knapsack(v, w, k - 1, i - w[k]) + v[k];
                 return Math.max(a, b);
@@ -32,11 +32,11 @@ public class Knapsack {
     }
 
     public static void main(String[] args) {
-        if (args.length == 2) {
+        if (args.length == 2) { // ˆø”‚ª‚P‚Å‚ ‚é
             int k = Integer.parseInt(args[0]);
             int i = Integer.parseInt(args[1]);
             System.out.println(knapsack(v, w, k, i));
-        } else if (args.length == 1) {
+        } else if (args.length == 1) { // ˆø”‚ª‚Q‚Å‚ ‚é
             int n = Integer.parseInt(args[0]);
             int[] v = new int[n + 1];
             int[] w = new int[n + 1];
@@ -50,9 +50,23 @@ public class Knapsack {
             long t2 = System.nanoTime();
             System.out.println(i);
             System.out.println();
-            System.out.println(((t2 - t1) / 1000000) + "ãƒŸãƒªç§’");
-        } else
-            System.out.println("ï¼‘ã€œï¼’å€‹ã®å¼•æ•°ã‚’ä¸ãˆã¦ãã ã•ã„");
+            System.out.println(((t2 - t1) / 1000000) + "ƒ~ƒŠ•b");
+        } else { // ˆø”‚ªƒ[ƒ‚Å‚ ‚é
+            for (int n = 25; n <= 30; n++) {
+                int[] v = new int[n + 1];
+                int[] w = new int[n + 1];
+                Random rnd = new Random();
+                for (int i = 1; i <= n; i++) {
+                    v[i] = rnd.nextInt(100);
+                    w[i] = rnd.nextInt(10) + 1;
+                }
+                long t1 = System.nanoTime();
+                int i = knapsack(v, w, n, n * 5);
+                long t2 = System.nanoTime();
+                System.out.print(n + " ");
+                System.out.println(((t2 - t1) / 1000));
+            }
+        }
     }
 
 }

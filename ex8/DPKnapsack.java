@@ -4,18 +4,18 @@ import java.util.Random;
 
 public class DPKnapsack {
     /**
-     * æ•™ç§‘æ›¸ï¼šè¡¨ 6.1ã®ä¾‹ v[1]ã€œv[4]ï¼šä¾¡æ ¼ w[1]ã€œw[4]ï¼šé‡ã•
+     * ‹³‰È‘F•\ 6.1‚Ì—á v[1]?v[4]F‰¿Ši w[1]?w[4]Fd‚³
      */
-    static int[] v = { 0, 250, 380, 420, 520 };
-    static int[] w = { 0, 1, 2, 4, 3 };
+    static int[] v = { 0, 250, 380, 420, 520, 720, 980, 990, 820, 480 };
+    static int[] w = { 0, 1, 2, 4, 3, 7, 9, 10, 8, 5 };
 
     /**
-     * ãƒŠãƒƒãƒ—ã‚µãƒƒã‚¯å•é¡Œã®æœ€é©è§£ã‚’æ¢ç´¢ï¼ˆå‹•çš„è¨ˆç”»æ³•ã‚’ç”¨ã„ãªã„ï¼‰
+     * ƒiƒbƒvƒTƒbƒN–â‘è‚ÌÅ“K‰ğ‚ğ’Tõi“®“IŒv‰æ–@‚ğ—p‚¢‚È‚¢j
      *
-     * @param v ä¾¡æ ¼ã®é…åˆ—
-     * @param w é‡ã•ã®é…åˆ—
-     * @param k å¯¾è±¡ã¨ã™ã‚‹è·ç‰©ã®æ•°
-     * @param i ãƒŠãƒƒãƒ—ã‚µãƒƒã‚¯ã®å®¹é‡
+     * @param v ‰¿Ši‚Ì”z—ñ
+     * @param w d‚³‚Ì”z—ñ
+     * @param k ‘ÎÛ‚Æ‚·‚é‰×•¨‚Ì”
+     * @param i ƒiƒbƒvƒTƒbƒN‚Ì—e—Ê
      */
     public static int knapsack(int v[], int w[], int k, int i) {
         int G[][] = new int[k + 1][i + 1];
@@ -25,22 +25,19 @@ public class DPKnapsack {
                 G[l][j] = 0;
             }
         }
-        for (int l = 1; l <= k; l++) {
-            for (int j = 0; j <= i; j++) {
+        for (int l = 1; l <= k; l++)
+        for (int j = 0; j <= i; j++) {
+            // G‚ªƒLƒƒƒbƒVƒ…‚Æ•ÏX‚ª‚È‚¢ê‡
+            if (j < w[l])
+                G[l][j] = G[l - 1][j];
 
-                // GãŒã‚­ãƒ£ãƒƒã‚·ãƒ¥ã¨å¤‰æ›´ãŒãªã„å ´åˆ
-                if (j < w[l])
+            // G‚ÌXV
+            else {
+                int _v = G[l - 1][j - w[l]] + v[l];
+                if (G[l - 1][j] < _v)
+                    G[l][j] = _v;
+                else
                     G[l][j] = G[l - 1][j];
-
-                // Gã®æ›´æ–°
-                else {
-                    //
-                    int v1 = G[l - 1][j - w[l]] + v[l];
-                    if (G[l - 1][j] < v1)
-                        G[l][j] = v1;
-                    else
-                        G[l][j] = G[l - 1][j];
-                }
             }
         }
         return G[k][i];
@@ -65,9 +62,23 @@ public class DPKnapsack {
             long t2 = System.nanoTime();
             System.out.println(i);
             System.out.println();
-            System.out.println(((t2 - t1) / 1000000) + "ãƒŸãƒªç§’");
-        } else
-            System.out.println("ï¼‘ã€œï¼’å€‹ã®å¼•æ•°ã‚’ä¸ãˆã¦ãã ã•ã„");
+            System.out.println(((t2 - t1) / 1000) + "ƒ~ƒŠƒ~ƒŠ•b");
+        } else {
+            for (int n = 25; n <= 30; n++) {
+                int[] v = new int[n + 1];
+                int[] w = new int[n + 1];
+                Random rnd = new Random();
+                for (int i = 1; i <= n; i++) {
+                    v[i] = rnd.nextInt(100);
+                    w[i] = rnd.nextInt(10) + 1;
+                }
+                long t1 = System.nanoTime();
+                int i = knapsack(v, w, n, n * 5);
+                long t2 = System.nanoTime();
+                System.out.print(n + " ");
+                System.out.println(((t2 - t1) / 1000));
+            }
+        }
     }
 
 }
