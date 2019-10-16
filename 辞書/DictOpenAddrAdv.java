@@ -3,10 +3,10 @@
 import java.util.Random;
 
 public class DictOpenAddrAdv {
-    DictData[] H; // «‘‚Ì”z—ñ
-    int B; // ”z—ñ‚Ì‘å‚«‚³
+    DictData[] H; // è¾æ›¸ã®é…åˆ—
+    int B; // é…åˆ—ã®å¤§ãã•
 
-    // ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+    // ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
     DictOpenAddrAdv(int len) {
         H = new DictData[len];
         B = len;
@@ -15,12 +15,12 @@ public class DictOpenAddrAdv {
         }
     }
 
-    // ƒnƒbƒVƒ…ŠÖ”
+    // ãƒãƒƒã‚·ãƒ¥é–¢æ•°
     int h(int d, int count) {
         return (d + count * 757) % B;
     }
 
-    // ƒf[ƒ^ d ‚ğ«‘‚É‘}“ü
+    // ãƒ‡ãƒ¼ã‚¿ d ã‚’è¾æ›¸ã«æŒ¿å…¥
     void insert_hash(int d) {
         if (search_hash(d) != -1) return;
         int hash;
@@ -35,8 +35,8 @@ public class DictOpenAddrAdv {
         System.out.println("Overflow!");
     }
 
-    // ƒf[ƒ^ d ‚ª«‘“à‚ÉŠÜ‚Ü‚ê‚é‚©‚ğ’Tõi–ß‚è’l‚ÍbooleanŒ^‚Å‚à‰Âj
-    // Œ©‚Â‚©‚Á‚½ê‡‚Í‚»‚ÌˆÊ’u‚ğAŒ©‚Â‚©‚ç‚È‚¯‚ê‚Î-1‚ğ•Ô‚·
+    // ãƒ‡ãƒ¼ã‚¿ d ãŒè¾æ›¸å†…ã«å«ã¾ã‚Œã‚‹ã‹ã‚’æ¢ç´¢ï¼ˆæˆ»ã‚Šå€¤ã¯booleanå‹ã§ã‚‚å¯ï¼‰
+    // è¦‹ã¤ã‹ã£ãŸå ´åˆã¯ãã®ä½ç½®ã‚’ã€è¦‹ã¤ã‹ã‚‰ãªã‘ã‚Œã°-1ã‚’è¿”ã™
     int search_hash(int d) {
         int hash;
         for (int count = 0; count != B; count++) {
@@ -51,14 +51,14 @@ public class DictOpenAddrAdv {
         return -1;
     }
 
-    // ƒf[ƒ^ d ‚ğ«‘‚©‚çíœ
+    // ãƒ‡ãƒ¼ã‚¿ d ã‚’è¾æ›¸ã‹ã‚‰å‰Šé™¤
     void delete_hash(int d) {
         int hash = search_hash(d);
         if (hash == -1) {
         } else H[hash].state = State.DELETED;
     }
 
-    // ”z—ñ—v‘f‚Ì•\¦
+    // é…åˆ—è¦ç´ ã®è¡¨ç¤º
     void display() {
         for (int i = 0; i < B; i++) {
             switch (H[i].state) {
@@ -78,10 +78,10 @@ public class DictOpenAddrAdv {
         System.out.println();
     }
 
-    // mainƒƒ\ƒbƒh
+    // mainãƒ¡ã‚½ãƒƒãƒ‰
     public static void main(String[] args) {
         DictOpenAddrAdv dict = new DictOpenAddrAdv(10000);
-        int length = 100; // s‰ñ”
+        int length = 100; // è©¦è¡Œå›æ•°
         Random rnd = new Random();
 
         long[] time_insert = new long[length];
